@@ -1,8 +1,6 @@
 package Lesson_6;
 
-import java.beans.IntrospectionException;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -162,13 +160,15 @@ public class Tests {
         List<WebElement> elementsFiltered = elements.stream().filter(item ->
                 (item.getText() != null && Integer.parseInt(item.getText().substring(16)) >= 500) ||
                 (item.getValue() != null && Integer.parseInt(item.getValue().substring(17)) >= 500))
-                .toList();
+                .toList(); // отфильтровываем значения в text и value, которые >=500
         List<WebElement> elementsFirstPartSorted = elementsFiltered.stream().filter(item -> item.getText() != null)
-                .sorted(Comparator.comparing(WebElement::getText)).toList();
+                .sorted(Comparator.comparing(WebElement::getText)).toList(); // берем все не null значения в text и
+                                                                            // сортируем
         List<WebElement> elementsSecondPartSorted = elementsFiltered.stream().filter(item -> item.getValue() != null)
-                .sorted(Comparator.comparing(WebElement::getValue).reversed()).toList();
-        elementsFirstPartSorted.add((WebElement) elementsSecondPartSorted);
-//        elementsFirstPartSorted.forEach(i -> System.out.println(i.getText() + " " + i.getValue()));
+                .sorted(Comparator.comparing(WebElement::getValue).reversed()).toList(); //берем все не null значения в
+                                                                                        // value и сортируем
+        List<WebElement> elementsResult = new ArrayList<>(elementsFirstPartSorted); // конкатенация
+        elementsResult.addAll(elementsSecondPartSorted);                           // двух списков
 
 //                        (item_1, item_2) ->{
 //                    int result = 0;
