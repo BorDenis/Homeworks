@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class Tests {
     public static void main(String[] args) {
-        Tests result = new Tests();
+//        Tests result = new Tests(); //для своих проверок
 //        System.out.println("--- test_1 ---");
 //        result.test_1();
 //        System.out.println("--- test_2--- ");
@@ -23,11 +23,8 @@ public class Tests {
 //        result.test_7();
 //        System.out.println("--- test_8 ---");
 //        result.test_8();
-        System.out.println("--- test_9 ---");
-        result.test_9();
-
-
-
+//        System.out.println("--- test_9 ---");
+//        result.test_9();
         System.out.println();
     }
 
@@ -46,7 +43,7 @@ public class Tests {
      */
     public void test_2() {
         List<Integer> integerList = getIntList();
-//        List<Integer> integerListResult = integerList.stream().sorted((item_1, item_2) -> {
+//        List<Integer> integerListResult = integerList.stream().sorted((item_1, item_2) -> { // тоже самое но руками
 //            int result = 0;
 //            if (item_1 > item_2) result = -1;
 //            else if (item_1 < item_2) result = 1;
@@ -108,7 +105,7 @@ public class Tests {
         elements.stream().peek(item -> item.setDisplayed(true)).filter(item -> item.getValue()==null)
                 .forEach(item -> System.out.format("isDisplayed - %s, value - %s, Type - %s, text - %s,\n",
                         item.isDisplayed(), item.getValue(), item.getType(), item.getText()));
-//        elements.stream().peek(item -> item.setDisplayed(true)).filter(item -> item.getValue()==null).toList();
+//        elements.stream().peek(item -> item.setDisplayed(true)).filter(item -> item.getValue()==null).toList(); // то же самое, но без вывода
 
     }
 
@@ -170,13 +167,13 @@ public class Tests {
         List<WebElement> elementsResult = new ArrayList<>(elementsFirstPartSorted); // конкатенация
         elementsResult.addAll(elementsSecondPartSorted);                           // двух списков
 
-//                        (item_1, item_2) ->{
+//                        sorted((item_1, item_2) ->{  //попытка воссоздать сортировку
 //                    int result = 0;
 //                    if (item_1.getText() != null) {
 //                    if (Integer.parseInt(item_1.getText().substring(16)) < Integer.parseInt(item_2.getText().substring(16))) return result = -1;
 //                    else if (Integer.parseInt(item_1.getText().substring(16)) > Integer.parseInt(item_2.getText().substring(16))) return result = 1;}
 //                    return result;
-//                }
+//                })
 
     }
 
