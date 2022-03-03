@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class Tests {
     public static void main(String[] args) {
-//        Tests result = new Tests(); //для своих проверок
+        Tests result = new Tests(); //для своих проверок
 //        System.out.println("--- test_1 ---");
 //        result.test_1();
 //        System.out.println("--- test_2--- ");
@@ -15,17 +15,17 @@ public class Tests {
 //        result.test_3();
 //        System.out.println("--- test_4 ---");
 //        result.test_4();
-//        System.out.println("--- test_5 ---"); FAIL!!!!
+//        System.out.println("--- test_5 ---"); //FAIL!!!!
 //        result.test_5();
-//        System.out.println("--- test_6 ---");
-//        result.test_6();
+        System.out.println("--- test_6 ---");
+        result.test_6();
 //        System.out.println("--- test_7 ---");
 //        result.test_7();
 //        System.out.println("--- test_8 ---");
 //        result.test_8();
 //        System.out.println("--- test_9 ---");
 //        result.test_9();
-        System.out.println();
+
     }
 
     /**
@@ -85,15 +85,23 @@ public class Tests {
      */
     public void test_5() {
         Map<Integer, String> map = getMap();
-        Map<Integer, String> mapLinked = new LinkedHashMap<>(map);
-
         final int[] i = {0};
-
-        map.entrySet().stream().forEach(item -> {
+        Map<Integer, String> mapLinked = map.entrySet().stream()
+                .sorted((item1, item2) -> {
+                    int result = new Random().nextInt(3);
+                    if (result == 2) result = -1;
+                    return result;
+                }).collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (item1, item2) -> item1, //при дублях в ключах, оставляет имеющий ключ и пропускает дубль
+                        LinkedHashMap::new)
+                );
+        mapLinked.entrySet().forEach(item -> {
             System.out.format("Элемент %s: ключ - %s, значение \"%s\"\n ", i[0], item.getKey(), item.getValue());
             i[0]++;
         });
-        System.out.println(mapLinked);
+
 
     }
 
@@ -156,8 +164,12 @@ public class Tests {
         List<WebElement> elements = getElements();
         List<WebElement> elementsFiltered = elements.stream().filter(item ->
                 (item.getText() != null && Integer.parseInt(item.getText().substring(16)) >= 500) ||
-                (item.getValue() != null && Integer.parseInt(item.getValue().substring(17)) >= 500))
-                .toList(); // отфильтровываем значения в text и value, которые >=500
+                (item.getValue() != null && Integer.parseInt(item.getValue().substring(17)) >= 500)
+//                (Objects.nonNull(item.getText()) && Integer.parseInt(item.getText().replaceAll("\\D", "")) > 499) || //более универсальный метод,
+//                (Objects.nonNull(item.getValue()) && Integer.parseInt(item.getValue().replaceAll("\\D", "")) > 499) //заменяющий все символы и специальные
+//                                                                                                                   //знаки, кроме цифр, на пустоту
+
+                ).toList(); // отфильтровываем значения в text и value, которые >=500
         List<WebElement> elementsFirstPartSorted = elementsFiltered.stream().filter(item -> item.getText() != null)
                 .sorted(Comparator.comparing(WebElement::getText)).toList(); // берем все не null значения в text и
                                                                             // сортируем
